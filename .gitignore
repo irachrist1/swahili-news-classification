@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+.ipynb_checkpoints/
+.DS_Store
+data/
+logs/
+results/*.pt
+results/.experiment_log.lock
+results_eda.log

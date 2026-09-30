@@ -1,0 +1,57 @@
+{
+  "run_name": "bilstm",
+  "model": "bilstm",
+  "settings": {
+    "model": "bilstm",
+    "preprocess": "full",
+    "stopwords": false,
+    "embeddings": "fasttext",
+    "freeze_embeddings": false,
+    "min_count": 3,
+    "max_len": 400,
+    "hidden_size": 128,
+    "num_layers": 1,
+    "pooling": "attention",
+    "dropout": 0.3,
+    "class_weights": "balanced",
+    "batch_size": 64,
+    "lr": 0.001,
+    "epochs": 15,
+    "patience": 3,
+    "seed": 42,
+    "limit": null
+  },
+  "vocab_size": 63040,
+  "fasttext_coverage": 0.7128,
+  "trainable_parameters": 19386886,
+  "best_epoch": 3,
+  "epochs_run": 6,
+  "train_seconds": 129.3,
+  "device": "cuda",
+  "validation": {
+    "accuracy": 0.8879,
+    "macro_f1": 0.809,
+    "weighted_f1": 0.887,
+    "f1_per_class": {
+      "uchumi": 0.6335,
+      "kitaifa": 0.8973,
+      "michezo": 0.9556,
+      "kimataifa": 0.8947,
+      "burudani": 0.9047,
+      "afya": 0.568
+    }
+  },
+  "test": {
+    "accuracy": 0.8824,
+    "macro_f1": 0.7987,
+    "weighted_f1": 0.8817,
+    "f1_per_class": {
+      "uchumi": 0.6154,
+      "kitaifa": 0.8883,
+      "michezo": 0.9558,
+      "kimataifa": 0.9034,
+      "burudani": 0.9136,
+      "afya": 0.5155
+    }
+  }
+}

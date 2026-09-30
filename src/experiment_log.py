@@ -5,11 +5,16 @@ A lock file keeps runs that finish at the same time from writing over each other
 """
 
 import csv
-import fcntl
 import json
 from datetime import datetime, timezone
 
 from config import RESULTS_DIR, make_output_dirs
+
+try:
+    import fcntl
+except ImportError:  # Windows has no fcntl; msvcrt provides an equivalent lock.
+    fcntl = None
+    import msvcrt
 
 LOG_PATH = RESULTS_DIR / "experiment_log.csv"
 LOCK_PATH = RESULTS_DIR / ".experiment_log.lock"
@@ -54,7 +59,10 @@ def log_experiment(run_name, model, change, hypothesis, validation, test, settin
         **{k: v for k, v in extra.items() if k in COLUMNS},
     }
     with open(LOCK_PATH, "w") as lock:
-        fcntl.flock(lock, fcntl.LOCK_EX)
+        if fcntl:
+            fcntl.flock(lock, fcntl.LOCK_EX)
+        else:
+            msvcrt.locking(lock.fileno(), msvcrt.LK_LOCK, 1)
         is_new = not LOG_PATH.exists()
         if not is_new:
             with open(LOG_PATH, newline="") as f:
@@ -66,5 +74,6 @@ def log_experiment(run_name, model, change, hypothesis, validation, test, settin
             if is_new:
                 writer.writeheader()
             writer.writerow(row)
-        fcntl.flock(lock, fcntl.LOCK_UN)
+        if fcntl:
+            fcntl.flock(lock, fcntl.LOCK_UN)
     print(f"logged {run_name} to {LOG_PATH}")

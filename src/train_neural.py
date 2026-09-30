@@ -11,6 +11,7 @@ Outputs, named after --run-name:
     results/predictions/<run>_test.csv  true label, prediction and class probabilities
     figures/<run>_training_curves.png
     results/<run>.pt                  best weights (not committed)
+    results/experiment_log.csv        one row appended per run (skipped with --limit)
 """
 
 import argparse
@@ -37,6 +38,7 @@ from config import (
     set_seed,
 )
 from data import load_splits
+from experiment_log import log_experiment
 from neural_models import build_model
 from preprocess import clean_splits
 from sequence_data import build_vocab, load_fasttext, make_loader
@@ -231,6 +233,18 @@ def main():
     }
     with open(RESULTS_DIR / f"{args.run_name}_metrics.json", "w") as f:
         json.dump(summary, f, indent=2)
+    if not args.limit:
+        log_experiment(
+            args.run_name,
+            args.model,
+            summary["validation"],
+            summary["test"],
+            summary["settings"],
+            trainable_parameters=trainable,
+            epochs_run=summary["epochs_run"],
+            train_seconds=train_seconds,
+            device=str(device),
+        )
     print(json.dumps({"validation": summary["validation"], "test": summary["test"]}, indent=2))
 
 

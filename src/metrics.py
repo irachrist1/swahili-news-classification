@@ -1,13 +1,6 @@
-"""Evaluation metrics, experiment logging and shared result plots."""
+"""Evaluation metrics and shared result plots. Runs are logged with experiment_log.py."""
 
 import json
-from datetime import datetime
-
-try:
-    import fcntl
-except ImportError:  # Windows has no fcntl; msvcrt provides an equivalent lock.
-    fcntl = None
-    import msvcrt
 
 import numpy as np
 import pandas as pd
@@ -24,7 +17,6 @@ import plot_style
 from config import FIGURES_DIR, LABEL_ENGLISH, LABEL_NAMES, NUM_CLASSES, PREDICTIONS_DIR, RESULTS_DIR
 
 plt = plot_style.plt
-EXPERIMENT_LOG = RESULTS_DIR / "experiment_log.csv"
 
 
 def compute_metrics(y_true, probabilities):
@@ -60,37 +52,6 @@ def bootstrap_macro_f1(y_true, y_pred, rounds=1000, seed=0):
         index = rng.integers(0, len(y_true), len(y_true))
         scores.append(f1_score(y_true[index], y_pred[index], average="macro"))
     return round(float(np.percentile(scores, 2.5)), 4), round(float(np.percentile(scores, 97.5)), 4)
-
-
-def log_experiment(experiment_id, model, owner, change, hypothesis, val_metrics, test_metrics=None, extra=None):
-    """Append one row to results/experiment_log.csv so every run is tracked in one place."""
-    RESULTS_DIR.mkdir(parents=True, exist_ok=True)
-    row = {
-        "experiment_id": experiment_id,
-        "model": model,
-        "owner": owner,
-        "change": change,
-        "hypothesis": hypothesis,
-        "val_macro_f1": val_metrics["macro_f1"],
-        "val_accuracy": val_metrics["accuracy"],
-        "val_log_loss": val_metrics["log_loss"],
-        "test_macro_f1": test_metrics["macro_f1"] if test_metrics else None,
-        "test_accuracy": test_metrics["accuracy"] if test_metrics else None,
-        "details": json.dumps(extra or {}),
-        "logged_at": datetime.now().strftime("%Y-%m-%d %H:%M"),
-    }
-    # Lock the file because several training scripts may run at the same time.
-    with open(RESULTS_DIR / ".experiment_log.lock", "w") as lock:
-        if fcntl:
-            fcntl.flock(lock, fcntl.LOCK_EX)
-        else:
-            msvcrt.locking(lock.fileno(), msvcrt.LK_LOCK, 1)
-        log = pd.read_csv(EXPERIMENT_LOG) if EXPERIMENT_LOG.exists() else pd.DataFrame()
-        if not log.empty:
-            log = log[log["experiment_id"] != experiment_id]
-        log = pd.concat([log, pd.DataFrame([row])], ignore_index=True)
-        log.sort_values("experiment_id").to_csv(EXPERIMENT_LOG, index=False)
-    print(f"[{experiment_id}] val macro-F1={row['val_macro_f1']} test macro-F1={row['test_macro_f1']}")
 
 
 def save_predictions(model_key, split, frame, probabilities):

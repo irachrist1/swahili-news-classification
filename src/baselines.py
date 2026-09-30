@@ -13,17 +13,13 @@ from sklearn.naive_bayes import ComplementNB, MultinomialNB
 
 from config import set_seed
 from data import load_splits
-from metrics import (
-    compute_metrics,
-    figure_path,
-    log_experiment,
-    plot_confusion_matrix,
-    save_metrics,
-    save_predictions,
-)
+from experiment_log import log_experiment
+from metrics import compute_metrics, figure_path, plot_confusion_matrix, save_metrics, save_predictions
 from preprocess import clean_splits
 
-OWNER = "Dan"
+MODEL_KEYS = {"Naive Bayes": "naive_bayes", "Logistic Regression": "logistic_regression"}
+# Only selected configurations are scored on test, so tuning runs log empty test columns.
+NOT_TESTED = {"accuracy": "", "macro_f1": "", "weighted_f1": ""}
 
 
 def build_features(train, validation, test, word_ngrams=(1, 1), use_chars=False):
@@ -52,8 +48,8 @@ def run(experiment_id, model_name, make_model, splits, change, hypothesis, word_
     model = make_model()
     model.fit(x_train, train["label"])
     val_metrics = compute_metrics(validation["label"], model.predict_proba(x_val))
-    log_experiment(experiment_id, model_name, OWNER, change, hypothesis, val_metrics,
-                   extra={"word_ngrams": list(word_ngrams), "char_ngrams": use_chars, "model": str(model)})
+    log_experiment(experiment_id, MODEL_KEYS[model_name], change, hypothesis, val_metrics, NOT_TESTED,
+                   {"word_ngrams": list(word_ngrams), "char_ngrams": use_chars, "model": str(model)}, device="cpu")
     return model, val_metrics, (x_train, x_val, x_test)
 
 
@@ -64,8 +60,8 @@ def finish(experiment_id, model_key, model_name, model, features, splits, val_me
     val_probabilities = model.predict_proba(x_val)
     test_probabilities = model.predict_proba(x_test)
     test_metrics = compute_metrics(test["label"], test_probabilities)
-    log_experiment(experiment_id, model_name, OWNER, change, "Selected configuration, evaluated once on test.",
-                   val_metrics, test_metrics, extra={"model": str(model)})
+    log_experiment(experiment_id, MODEL_KEYS[model_name], change, "Selected configuration, evaluated once on test.",
+                   val_metrics, test_metrics, {"model": str(model)}, device="cpu")
     save_predictions(model_key, "validation", validation, val_probabilities)
     save_predictions(model_key, "test", test, test_probabilities)
     save_metrics(model_key, {"validation": val_metrics, "test": test_metrics})

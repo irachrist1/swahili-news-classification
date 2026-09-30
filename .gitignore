@@ -7,3 +7,4 @@ logs/
 results/*.pt
 results/.experiment_log.lock
 results_eda.log
+results/transformer_runs/

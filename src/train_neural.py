@@ -2,7 +2,8 @@
 
 Examples (run from the project root):
     python src/train_neural.py --model bilstm
-    python src/train_neural.py --model bilstm --embeddings random --run-name bilstm_random
+    python src/train_neural.py --model bilstm --embeddings random --run-name bilstm_random \
+        --change "random embeddings instead of fastText" --hypothesis "pretrained vectors help with little data"
     python src/train_neural.py --model bilstm --limit 500 --epochs 1      # quick smoke test
 
 Outputs, named after --run-name:
@@ -50,6 +51,8 @@ def parse_args():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--model", default="bilstm")
     parser.add_argument("--run-name", default=None, help="defaults to the model name")
+    parser.add_argument("--change", default="", help="what this run changes, for the experiment log")
+    parser.add_argument("--hypothesis", default="", help="why the change might help")
     parser.add_argument("--preprocess", choices=["full", "raw"], default="full")
     parser.add_argument("--stopwords", action="store_true", help="remove Swahili stopwords")
     parser.add_argument("--embeddings", choices=["fasttext", "random"], default="fasttext")
@@ -220,7 +223,9 @@ def main():
     summary = {
         "run_name": args.run_name,
         "model": args.model,
-        "settings": {k: v for k, v in vars(args).items() if k != "run_name"},
+        "change": args.change,
+        "hypothesis": args.hypothesis,
+        "settings": {k: v for k, v in vars(args).items() if k not in ("run_name", "change", "hypothesis")},
         "vocab_size": len(vocab),
         "fasttext_coverage": None if coverage is None else round(coverage, 4),
         "trainable_parameters": trainable,
@@ -237,6 +242,8 @@ def main():
         log_experiment(
             args.run_name,
             args.model,
+            args.change,
+            args.hypothesis,
             summary["validation"],
             summary["test"],
             summary["settings"],

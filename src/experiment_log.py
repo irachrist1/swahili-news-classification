@@ -18,6 +18,8 @@ COLUMNS = [
     "timestamp",
     "run_name",
     "model",
+    "change",
+    "hypothesis",
     "val_accuracy",
     "val_macro_f1",
     "test_accuracy",
@@ -31,13 +33,18 @@ COLUMNS = [
 ]
 
 
-def log_experiment(run_name, model, validation, test, settings, **extra):
-    """validation and test are score dicts with accuracy, macro_f1 and weighted_f1."""
+def log_experiment(run_name, model, change, hypothesis, validation, test, settings, **extra):
+    """Log one run. change says what differs from the reference run, hypothesis why it might help.
+
+    validation and test are score dicts with accuracy, macro_f1 and weighted_f1.
+    """
     make_output_dirs()
     row = {
         "timestamp": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S"),
         "run_name": run_name,
         "model": model,
+        "change": change,
+        "hypothesis": hypothesis,
         "val_accuracy": validation["accuracy"],
         "val_macro_f1": validation["macro_f1"],
         "test_accuracy": test["accuracy"],
@@ -49,6 +56,11 @@ def log_experiment(run_name, model, validation, test, settings, **extra):
     with open(LOCK_PATH, "w") as lock:
         fcntl.flock(lock, fcntl.LOCK_EX)
         is_new = not LOG_PATH.exists()
+        if not is_new:
+            with open(LOG_PATH, newline="") as f:
+                header = next(csv.reader(f), [])
+            if header != COLUMNS:
+                raise ValueError(f"{LOG_PATH} has columns {header}, expected {COLUMNS}")
         with open(LOG_PATH, "a", newline="") as f:
             writer = csv.DictWriter(f, fieldnames=COLUMNS)
             if is_new:

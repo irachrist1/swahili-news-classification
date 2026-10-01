@@ -17,9 +17,9 @@ from compare_models import MODELS, load_predictions
 from config import LABEL_NAMES, RESULTS_DIR
 from data import load_splits
 from metrics import compute_metrics, figure_path
-from neural_models import BiLSTMClassifier
+from neural_models import BiLSTMAttention
 from preprocess import clean_splits
-from sequence_data import PAD, UNK
+from sequence_data import build_vocab, encode
 
 plt = plot_style.plt
 ENGLISH_WORDS = {w for w in ENGLISH_STOP_WORDS if len(w) > 2}
@@ -188,8 +188,8 @@ def byline_ablation(names, summary):
     for frame in [train, validation, test]:
         frame["clean_text"] = frame["clean_text"].map(lambda t: pattern.sub(" ", t))
     x_train, x_val, x_test = build_features(train, validation, test, word_ngrams=(1, 2), use_chars=True)
-    log = pd.read_csv(RESULTS_DIR / "experiment_log.csv").set_index("experiment_id")
-    c = json.loads(log.loc["L05", "details"])["model"].split("C=")[1].split(",")[0]
+    log = pd.read_csv(RESULTS_DIR / "experiment_log.csv").set_index("run_name")
+    c = log.loc["L05", "change"].split("C=")[1].split(",")[0]
     model = LogisticRegression(C=float(c), max_iter=3000, class_weight="balanced").fit(x_train, train["label"])
     result = {
         "names_removed": len(names),
@@ -202,35 +202,40 @@ def byline_ablation(names, summary):
     print("byline ablation", result)
 
 
-def bilstm_attention(test, summary, examples=6):
-    """The words the BiLSTM attends to most, to check whether it relies on sensible cues."""
-    path = RESULTS_DIR / "bilstm_model.pt"
-    if not path.exists():
+def bilstm_attention(train, test, summary, examples=6):
+    """The words the BiLSTM attends to most, to check whether it relies on sensible cues.
+
+    Needs results/bilstm.pt, which python src/train_neural.py --model bilstm writes (not committed).
+    """
+    path = RESULTS_DIR / "bilstm.pt"
+    metrics_path = RESULTS_DIR / "bilstm_metrics.json"
+    if not path.exists() or not metrics_path.exists():
+        print("skipping BiLSTM attention: results/bilstm.pt not found (train the BiLSTM first)")
         return
-    saved = torch.load(path, map_location="cpu")
-    config = saved["config"]
-    if config["pooling"] != "attention":
+    with open(metrics_path) as f:
+        settings = json.load(f)["settings"]
+    if settings["pooling"] != "attention":
         return
-    words = saved["words"]
-    index = {w: i for i, w in enumerate(words)}
-    model = BiLSTMClassifier(len(words), len(LABEL_NAMES), hidden_size=config["hidden_size"],
-                             dropout=config["dropout"], pooling="attention")
-    model.load_state_dict(saved["state_dict"])
+    vocab = build_vocab(train["clean_text"], min_count=settings["min_count"])
+    model = BiLSTMAttention(len(vocab), len(LABEL_NAMES), hidden_size=settings["hidden_size"],
+                            num_layers=settings["num_layers"], dropout=settings["dropout"], pooling="attention")
+    model.load_state_dict(torch.load(path, map_location="cpu"))
     model.eval()
 
     rows = []
     rng = np.random.default_rng(0)
     for i in rng.choice(len(test), examples * 4, replace=False):
-        tokens = test["clean_text"].iloc[i].split()[:config["max_length"]]
-        ids = torch.tensor([[index.get(w, UNK) for w in tokens]])
+        tokens = test["clean_text"].iloc[i].split()[:settings["max_len"]]
+        if not tokens:
+            continue
+        ids = torch.tensor([encode(" ".join(tokens), vocab, settings["max_len"])])
         with torch.no_grad():
-            logits, weights = model(ids, return_attention=True)
-        weights = weights[0].numpy()
+            logits = model(ids, torch.tensor([ids.size(1)]))
+        weights = model.last_attention[0].numpy()
         top = np.argsort(weights)[::-1][:8]
-        predicted = int(logits.argmax())
         rows.append({"test_index": int(i), "true": LABEL_NAMES[test["label"].iloc[i]],
-                     "predicted": LABEL_NAMES[predicted],
-                     "top_words": ", ".join(f"{tokens[j]} ({weights[j]:.2f})" for j in top if ids[0, j] != PAD),
+                     "predicted": LABEL_NAMES[int(logits.argmax())],
+                     "top_words": ", ".join(f"{tokens[j]} ({weights[j]:.2f})" for j in top),
                      "attention_on_top8": round(float(weights[top].sum()), 3)})
         if len(rows) >= examples:
             break
@@ -253,7 +258,7 @@ def main():
     hard_examples(predictions, test, summary)
     label_audit(predictions, test, summary)
     byline_ablation(byline_shortcut(summary), summary)
-    bilstm_attention(test, summary)
+    bilstm_attention(train, test, summary)
     with open(RESULTS_DIR / "error_analysis_summary.json", "w") as f:
         json.dump(summary, f, indent=2, ensure_ascii=False)
     print(json.dumps({k: v for k, v in summary.items() if k != "bilstm_attention_examples"}, indent=2)[:4000])

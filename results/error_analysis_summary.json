@@ -3,6 +3,7 @@
     "Naive Bayes",
     "Logistic Regression",
     "BiLSTM + attention",
+    "TextCNN",
     "AfriBERTa"
   ],
   "top_confusions": [
@@ -89,6 +90,34 @@
       "predicted": "kitaifa",
       "count": 77,
       "share_of_errors": 0.09
+    },
+    {
+      "model": "TextCNN",
+      "true": "kitaifa",
+      "predicted": "uchumi",
+      "count": 197,
+      "share_of_errors": 0.199
+    },
+    {
+      "model": "TextCNN",
+      "true": "kitaifa",
+      "predicted": "afya",
+      "count": 196,
+      "share_of_errors": 0.198
+    },
+    {
+      "model": "TextCNN",
+      "true": "uchumi",
+      "predicted": "kitaifa",
+      "count": 151,
+      "share_of_errors": 0.152
+    },
+    {
+      "model": "TextCNN",
+      "true": "afya",
+      "predicted": "kitaifa",
+      "count": 68,
+      "share_of_errors": 0.069
     },
     {
       "model": "AfriBERTa",
@@ -226,6 +255,41 @@
       "macro_f1": 0.6747
     },
     {
+      "model": "TextCNN",
+      "group": "<128",
+      "articles": 687,
+      "accuracy": 0.8981,
+      "macro_f1": 0.7227
+    },
+    {
+      "model": "TextCNN",
+      "group": "128-255",
+      "articles": 2685,
+      "accuracy": 0.8622,
+      "macro_f1": 0.7817
+    },
+    {
+      "model": "TextCNN",
+      "group": "256-511",
+      "articles": 2973,
+      "accuracy": 0.8631,
+      "macro_f1": 0.7522
+    },
+    {
+      "model": "TextCNN",
+      "group": "512-1023",
+      "articles": 796,
+      "accuracy": 0.853,
+      "macro_f1": 0.7377
+    },
+    {
+      "model": "TextCNN",
+      "group": "1024+",
+      "articles": 162,
+      "accuracy": 0.8272,
+      "macro_f1": 0.662
+    },
+    {
       "model": "AfriBERTa",
       "group": "<128",
       "articles": 687,
@@ -347,6 +411,34 @@
       "macro_f1": 0.7924
     },
     {
+      "model": "TextCNN",
+      "group": "lowest",
+      "articles": 1826,
+      "accuracy": 0.8762,
+      "macro_f1": 0.7836
+    },
+    {
+      "model": "TextCNN",
+      "group": "low",
+      "articles": 1830,
+      "accuracy": 0.8639,
+      "macro_f1": 0.7673
+    },
+    {
+      "model": "TextCNN",
+      "group": "high",
+      "articles": 1821,
+      "accuracy": 0.866,
+      "macro_f1": 0.7943
+    },
+    {
+      "model": "TextCNN",
+      "group": "highest",
+      "articles": 1826,
+      "accuracy": 0.8505,
+      "macro_f1": 0.7745
+    },
+    {
       "model": "AfriBERTa",
       "group": "lowest",
       "articles": 1826,
@@ -426,6 +518,20 @@
       "macro_f1": 0.7898
     },
     {
+      "model": "TextCNN",
+      "group": "swahili_only",
+      "articles": 7143,
+      "accuracy": 0.8632,
+      "macro_f1": 0.7842
+    },
+    {
+      "model": "TextCNN",
+      "group": "mixed",
+      "articles": 160,
+      "accuracy": 0.9062,
+      "macro_f1": 0.7992
+    },
+    {
       "model": "AfriBERTa",
       "group": "swahili_only",
       "articles": 7143,
@@ -441,11 +547,12 @@
     }
   ],
   "models_correct_distribution": {
-    "4": 5773,
-    "2": 339,
-    "0": 257,
-    "3": 662,
-    "1": 272
+    "5": 5538,
+    "3": 346,
+    "0": 235,
+    "4": 723,
+    "1": 203,
+    "2": 258
   },
   "best_model": "AfriBERTa",
   "best_model_confident_errors": 340,
@@ -457,9 +564,53 @@
   },
   "byline_ablation": {
     "names_removed": 182,
-    "val_macro_f1": 0.8263,
-    "test_macro_f1": 0.8143,
+    "val_macro_f1": 0.8265,
+    "test_macro_f1": 0.8151,
     "original_val_macro_f1": 0.8324,
     "original_test_macro_f1": 0.8166
-  }
+  },
+  "bilstm_attention_examples": [
+    {
+      "test_index": 7080,
+      "true": "uchumi",
+      "predicted": "uchumi",
+      "top_words": "meneja (0.05), hiyo (0.04), modemu (0.03), saalam (0.02), aidha (0.01), ijulikanayo (0.01), maajabu (0.01), kutatua (0.01)",
+      "attention_on_top8": 0.188
+    },
+    {
+      "test_index": 3966,
+      "true": "michezo",
+      "predicted": "michezo",
+      "top_words": "azam (0.10), fc (0.10), imeachana (0.09), hall (0.08), jana (0.08), azam (0.06), rasmi (0.04), tovuti (0.04)",
+      "attention_on_top8": 0.592
+    },
+    {
+      "test_index": 4613,
+      "true": "michezo",
+      "predicted": "michezo",
+      "top_words": "mchezo (0.05), kmkm (0.04), kombe (0.04), michuano (0.04), bao (0.04), pointi (0.04), pointi (0.04), pointi (0.03)",
+      "attention_on_top8": 0.319
+    },
+    {
+      "test_index": 19,
+      "true": "michezo",
+      "predicted": "michezo",
+      "top_words": "mashabiki (0.04), yanga (0.04), timu (0.03), muro (0.03), msimu (0.03), al (0.03), yanga (0.03), mshambuliaji (0.03)",
+      "attention_on_top8": 0.266
+    },
+    {
+      "test_index": 298,
+      "true": "michezo",
+      "predicted": "michezo",
+      "top_words": "mazembe (0.09), mazembe (0.09), mazembe (0.08), gasper (0.06), theresia (0.06), tp (0.05), tangu (0.05), tp (0.04)",
+      "attention_on_top8": 0.514
+    },
+    {
+      "test_index": 548,
+      "true": "afya",
+      "predicted": "afya",
+      "top_words": "kitomary (0.08), aveline (0.08), dar (0.05), es (0.04), salaam (0.03), rubella (0.02), aliwasisitiza (0.02), surua (0.02)",
+      "attention_on_top8": 0.345
+    }
+  ]
 }

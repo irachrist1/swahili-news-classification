@@ -11,6 +11,10 @@ BiLSTM + attention,lowest,1826,0.8981,0.8027
 BiLSTM + attention,low,1830,0.8694,0.7497
 BiLSTM + attention,high,1821,0.8891,0.8154
 BiLSTM + attention,highest,1826,0.8729,0.7924
+TextCNN,lowest,1826,0.8762,0.7836
+TextCNN,low,1830,0.8639,0.7673
+TextCNN,high,1821,0.866,0.7943
+TextCNN,highest,1826,0.8505,0.7745
 AfriBERTa,lowest,1826,0.9398,0.8826
 AfriBERTa,low,1830,0.9219,0.8469
 AfriBERTa,high,1821,0.9264,0.8704

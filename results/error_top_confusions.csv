@@ -11,6 +11,10 @@ BiLSTM + attention,uchumi,kitaifa,215,0.25
 BiLSTM + attention,kitaifa,afya,151,0.176
 BiLSTM + attention,kitaifa,uchumi,81,0.094
 BiLSTM + attention,afya,kitaifa,77,0.09
+TextCNN,kitaifa,uchumi,197,0.199
+TextCNN,kitaifa,afya,196,0.198
+TextCNN,uchumi,kitaifa,151,0.152
+TextCNN,afya,kitaifa,68,0.069
 AfriBERTa,uchumi,kitaifa,100,0.182
 AfriBERTa,kitaifa,afya,77,0.14
 AfriBERTa,afya,kitaifa,74,0.135

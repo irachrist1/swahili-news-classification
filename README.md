@@ -1,6 +1,6 @@
 # Swahili News Classification
 
-This repository classifies Swahili news articles into six topics with five models, from TF-IDF baselines to a fine-tuned AfriBERTa. The Colab notebook runs the full pipeline and produces every table and figure in the report.
+This repository classifies Swahili news articles into six topics with five models, from TF-IDF baselines to a fine-tuned AfriBERTa. The Colab notebook runs the full pipeline and produces every table and figure.
 
 The six topics are *uchumi* (economy), *kitaifa* (national), *michezo* (sports), *kimataifa* (international), *burudani* (entertainment) and *afya* (health). The data is the Swahili News Classification dataset (Davis, 2020), the corpus used in the Zindi AI4D Swahili News Classification Challenge.
 
@@ -14,7 +14,7 @@ The six topics are *uchumi* (economy), *kitaifa* (national), *michezo* (sports),
 | TextCNN | `textcnn_wide` | 0.792 | 0.780–0.805 | 0.871 | 0.423 |
 | AfriBERTa | `T04` | **0.868** | 0.857–0.879 | 0.925 | 0.289 |
 
-Test set: 7,303 articles. Per-class scores, significance tests and the error analysis are in the [report](report/report.pdf).
+Test set: 7,303 articles. Per-class scores, significance tests and the error analysis are in `results/` and `figures/`.
 
 Each model is represented by its best run on validation macro-F1. Macro-F1 is the main metric because the classes are imbalanced 13 to 1. Every run, what it changed and why, is in [`results/experiment_log.csv`](results/experiment_log.csv).
 
@@ -57,8 +57,7 @@ src/
   error_analysis.py    errors by length, rare words, code-switching; label audit; shortcuts
 notebooks/             Colab notebook
 results/               experiment log, metrics, test predictions, analysis tables
-figures/               every figure in the report
-report/                the research report (PDF)
+figures/               every figure
 ```
 
 ## Team

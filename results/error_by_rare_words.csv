@@ -7,14 +7,14 @@ Logistic Regression,lowest,1826,0.9036,0.823
 Logistic Regression,low,1830,0.8792,0.7752
 Logistic Regression,high,1821,0.8858,0.8078
 Logistic Regression,highest,1826,0.8888,0.8311
-BiLSTM + attention,lowest,1826,0.8981,0.8027
-BiLSTM + attention,low,1830,0.8694,0.7497
-BiLSTM + attention,high,1821,0.8891,0.8154
-BiLSTM + attention,highest,1826,0.8729,0.7924
-TextCNN,lowest,1826,0.8762,0.7836
-TextCNN,low,1830,0.8639,0.7673
-TextCNN,high,1821,0.866,0.7943
-TextCNN,highest,1826,0.8505,0.7745
+BiLSTM,lowest,1826,0.8998,0.828
+BiLSTM,low,1830,0.8803,0.7857
+BiLSTM,high,1821,0.8918,0.8331
+BiLSTM,highest,1826,0.8729,0.8091
+TextCNN,lowest,1826,0.8866,0.7994
+TextCNN,low,1830,0.865,0.7698
+TextCNN,high,1821,0.8649,0.7854
+TextCNN,highest,1826,0.8653,0.7959
 AfriBERTa,lowest,1826,0.9398,0.8826
 AfriBERTa,low,1830,0.9219,0.8469
 AfriBERTa,high,1821,0.9264,0.8704

@@ -210,7 +210,12 @@ def bilstm_attention(train, test, summary, examples=6):
     path = RESULTS_DIR / "bilstm.pt"
     metrics_path = RESULTS_DIR / "bilstm_metrics.json"
     if not path.exists() or not metrics_path.exists():
-        print("skipping BiLSTM attention: results/bilstm.pt not found (train the BiLSTM first)")
+        saved = RESULTS_DIR / "error_bilstm_attention.csv"
+        if saved.exists():
+            print("results/bilstm.pt not found; reusing the committed error_bilstm_attention.csv")
+            summary["bilstm_attention_examples"] = pd.read_csv(saved).to_dict("records")
+        else:
+            print("skipping BiLSTM attention: results/bilstm.pt not found (train the BiLSTM first)")
         return
     with open(metrics_path) as f:
         settings = json.load(f)["settings"]

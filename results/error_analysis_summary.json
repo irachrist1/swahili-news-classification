@@ -2,7 +2,7 @@
   "models": [
     "Naive Bayes",
     "Logistic Regression",
-    "BiLSTM + attention",
+    "BiLSTM",
     "TextCNN",
     "AfriBERTa"
   ],
@@ -64,60 +64,60 @@
       "share_of_errors": 0.095
     },
     {
-      "model": "BiLSTM + attention",
-      "true": "uchumi",
-      "predicted": "kitaifa",
-      "count": 215,
-      "share_of_errors": 0.25
-    },
-    {
-      "model": "BiLSTM + attention",
-      "true": "kitaifa",
-      "predicted": "afya",
-      "count": 151,
-      "share_of_errors": 0.176
-    },
-    {
-      "model": "BiLSTM + attention",
+      "model": "BiLSTM",
       "true": "kitaifa",
       "predicted": "uchumi",
-      "count": 81,
-      "share_of_errors": 0.094
+      "count": 199,
+      "share_of_errors": 0.239
     },
     {
-      "model": "BiLSTM + attention",
-      "true": "afya",
+      "model": "BiLSTM",
+      "true": "kitaifa",
+      "predicted": "afya",
+      "count": 141,
+      "share_of_errors": 0.17
+    },
+    {
+      "model": "BiLSTM",
+      "true": "uchumi",
       "predicted": "kitaifa",
-      "count": 77,
-      "share_of_errors": 0.09
+      "count": 82,
+      "share_of_errors": 0.099
+    },
+    {
+      "model": "BiLSTM",
+      "true": "kitaifa",
+      "predicted": "michezo",
+      "count": 76,
+      "share_of_errors": 0.091
     },
     {
       "model": "TextCNN",
       "true": "kitaifa",
       "predicted": "uchumi",
-      "count": 197,
-      "share_of_errors": 0.199
+      "count": 194,
+      "share_of_errors": 0.205
     },
     {
       "model": "TextCNN",
       "true": "kitaifa",
       "predicted": "afya",
-      "count": 196,
-      "share_of_errors": 0.198
+      "count": 154,
+      "share_of_errors": 0.163
     },
     {
       "model": "TextCNN",
       "true": "uchumi",
       "predicted": "kitaifa",
-      "count": 151,
-      "share_of_errors": 0.152
+      "count": 145,
+      "share_of_errors": 0.153
     },
     {
       "model": "TextCNN",
       "true": "afya",
       "predicted": "kitaifa",
-      "count": 68,
-      "share_of_errors": 0.069
+      "count": 74,
+      "share_of_errors": 0.078
     },
     {
       "model": "AfriBERTa",
@@ -220,74 +220,74 @@
       "macro_f1": 0.7179
     },
     {
-      "model": "BiLSTM + attention",
+      "model": "BiLSTM",
       "group": "<128",
       "articles": 687,
-      "accuracy": 0.9025,
-      "macro_f1": 0.7136
+      "accuracy": 0.9156,
+      "macro_f1": 0.734
     },
     {
-      "model": "BiLSTM + attention",
+      "model": "BiLSTM",
       "group": "128-255",
       "articles": 2685,
-      "accuracy": 0.8808,
-      "macro_f1": 0.8062
+      "accuracy": 0.898,
+      "macro_f1": 0.8381
     },
     {
-      "model": "BiLSTM + attention",
+      "model": "BiLSTM",
       "group": "256-511",
       "articles": 2973,
-      "accuracy": 0.8789,
-      "macro_f1": 0.754
+      "accuracy": 0.8779,
+      "macro_f1": 0.7787
     },
     {
-      "model": "BiLSTM + attention",
+      "model": "BiLSTM",
       "group": "512-1023",
       "articles": 796,
-      "accuracy": 0.8882,
-      "macro_f1": 0.7851
+      "accuracy": 0.8606,
+      "macro_f1": 0.7453
     },
     {
-      "model": "BiLSTM + attention",
+      "model": "BiLSTM",
       "group": "1024+",
       "articles": 162,
-      "accuracy": 0.858,
-      "macro_f1": 0.6747
+      "accuracy": 0.8457,
+      "macro_f1": 0.7052
     },
     {
       "model": "TextCNN",
       "group": "<128",
       "articles": 687,
-      "accuracy": 0.8981,
-      "macro_f1": 0.7227
+      "accuracy": 0.9039,
+      "macro_f1": 0.7287
     },
     {
       "model": "TextCNN",
       "group": "128-255",
       "articles": 2685,
-      "accuracy": 0.8622,
-      "macro_f1": 0.7817
+      "accuracy": 0.8749,
+      "macro_f1": 0.8016
     },
     {
       "model": "TextCNN",
       "group": "256-511",
       "articles": 2973,
-      "accuracy": 0.8631,
-      "macro_f1": 0.7522
+      "accuracy": 0.8644,
+      "macro_f1": 0.7496
     },
     {
       "model": "TextCNN",
       "group": "512-1023",
       "articles": 796,
-      "accuracy": 0.853,
-      "macro_f1": 0.7377
+      "accuracy": 0.8593,
+      "macro_f1": 0.7521
     },
     {
       "model": "TextCNN",
       "group": "1024+",
       "articles": 162,
-      "accuracy": 0.8272,
-      "macro_f1": 0.662
+      "accuracy": 0.821,
+      "macro_f1": 0.6754
     },
     {
       "model": "AfriBERTa",
@@ -383,60 +383,60 @@
       "macro_f1": 0.8311
     },
     {
-      "model": "BiLSTM + attention",
+      "model": "BiLSTM",
       "group": "lowest",
       "articles": 1826,
-      "accuracy": 0.8981,
-      "macro_f1": 0.8027
+      "accuracy": 0.8998,
+      "macro_f1": 0.828
     },
     {
-      "model": "BiLSTM + attention",
+      "model": "BiLSTM",
       "group": "low",
       "articles": 1830,
-      "accuracy": 0.8694,
-      "macro_f1": 0.7497
+      "accuracy": 0.8803,
+      "macro_f1": 0.7857
     },
     {
-      "model": "BiLSTM + attention",
+      "model": "BiLSTM",
       "group": "high",
       "articles": 1821,
-      "accuracy": 0.8891,
-      "macro_f1": 0.8154
+      "accuracy": 0.8918,
+      "macro_f1": 0.8331
     },
     {
-      "model": "BiLSTM + attention",
+      "model": "BiLSTM",
       "group": "highest",
       "articles": 1826,
       "accuracy": 0.8729,
-      "macro_f1": 0.7924
+      "macro_f1": 0.8091
     },
     {
       "model": "TextCNN",
       "group": "lowest",
       "articles": 1826,
-      "accuracy": 0.8762,
-      "macro_f1": 0.7836
+      "accuracy": 0.8866,
+      "macro_f1": 0.7994
     },
     {
       "model": "TextCNN",
       "group": "low",
       "articles": 1830,
-      "accuracy": 0.8639,
-      "macro_f1": 0.7673
+      "accuracy": 0.865,
+      "macro_f1": 0.7698
     },
     {
       "model": "TextCNN",
       "group": "high",
       "articles": 1821,
-      "accuracy": 0.866,
-      "macro_f1": 0.7943
+      "accuracy": 0.8649,
+      "macro_f1": 0.7854
     },
     {
       "model": "TextCNN",
       "group": "highest",
       "articles": 1826,
-      "accuracy": 0.8505,
-      "macro_f1": 0.7745
+      "accuracy": 0.8653,
+      "macro_f1": 0.7959
     },
     {
       "model": "AfriBERTa",
@@ -504,32 +504,32 @@
       "macro_f1": 0.8435
     },
     {
-      "model": "BiLSTM + attention",
+      "model": "BiLSTM",
       "group": "swahili_only",
       "articles": 7143,
-      "accuracy": 0.8816,
-      "macro_f1": 0.797
+      "accuracy": 0.8853,
+      "macro_f1": 0.8151
     },
     {
-      "model": "BiLSTM + attention",
+      "model": "BiLSTM",
       "group": "mixed",
       "articles": 160,
-      "accuracy": 0.9188,
-      "macro_f1": 0.7898
+      "accuracy": 0.925,
+      "macro_f1": 0.8824
     },
     {
       "model": "TextCNN",
       "group": "swahili_only",
       "articles": 7143,
-      "accuracy": 0.8632,
-      "macro_f1": 0.7842
+      "accuracy": 0.8705,
+      "macro_f1": 0.792
     },
     {
       "model": "TextCNN",
       "group": "mixed",
       "articles": 160,
-      "accuracy": 0.9062,
-      "macro_f1": 0.7992
+      "accuracy": 0.8688,
+      "macro_f1": 0.7346
     },
     {
       "model": "AfriBERTa",
@@ -547,15 +547,23 @@
     }
   ],
   "models_correct_distribution": {
-    "5": 5538,
-    "3": 346,
-    "0": 235,
-    "4": 723,
-    "1": 203,
-    "2": 258
+    "5": 5512,
+    "3": 380,
+    "0": 230,
+    "4": 756,
+    "1": 161,
+    "2": 264
   },
   "best_model": "AfriBERTa",
   "best_model_confident_errors": 340,
+  "label_audit": {
+    "model": "Logistic Regression",
+    "candidates": 211,
+    "sampled": 30,
+    "label_wrong": 17,
+    "ambiguous": 10,
+    "model_wrong": 3
+  },
   "byline_shortcut": {
     "train_share_with_byline": 0.22,
     "regular_reporters": 43,
@@ -564,8 +572,8 @@
   },
   "byline_ablation": {
     "names_removed": 182,
-    "val_macro_f1": 0.8265,
-    "test_macro_f1": 0.8151,
+    "val_macro_f1": 0.8253,
+    "test_macro_f1": 0.8152,
     "original_val_macro_f1": 0.8324,
     "original_test_macro_f1": 0.8166
   },

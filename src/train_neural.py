@@ -2,6 +2,7 @@
 
 Examples (run from the project root):
     python src/train_neural.py --model bilstm
+    python src/train_neural.py --model textcnn --run-name textcnn --dropout 0.5
     python src/train_neural.py --model bilstm --embeddings random --run-name bilstm_random \
         --change "random embeddings instead of fastText" --hypothesis "pretrained vectors help with little data"
     python src/train_neural.py --model bilstm --limit 500 --epochs 1      # quick smoke test
@@ -62,6 +63,8 @@ def parse_args():
     parser.add_argument("--hidden-size", type=int, default=128)
     parser.add_argument("--num-layers", type=int, default=1)
     parser.add_argument("--pooling", choices=["attention", "max", "mean"], default="attention")
+    parser.add_argument("--num-filters", type=int, default=100, help="textcnn: filters per kernel size")
+    parser.add_argument("--kernel-sizes", type=int, nargs="+", default=[3, 4, 5], help="textcnn: window sizes in words")
     parser.add_argument("--dropout", type=float, default=0.3)
     parser.add_argument("--class-weights", choices=["balanced", "none"], default="balanced")
     parser.add_argument("--batch-size", type=int, default=64)
@@ -80,6 +83,8 @@ def model_options(args):
     shared = {"dropout": args.dropout, "freeze_embeddings": args.freeze_embeddings}
     if args.model == "bilstm":
         return {**shared, "hidden_size": args.hidden_size, "num_layers": args.num_layers, "pooling": args.pooling}
+    if args.model == "textcnn":
+        return {**shared, "num_filters": args.num_filters, "kernel_sizes": tuple(args.kernel_sizes)}
     return shared
 
 

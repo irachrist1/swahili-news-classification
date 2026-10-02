@@ -87,8 +87,43 @@ class BiLSTMAttention(nn.Module):
         return self.classifier(self.dropout(pooled))
 
 
+class TextCNN(nn.Module):
+    """Kim-style convolutional classifier: parallel n-gram convolutions, max-over-time pooling.
+
+    Each kernel size looks at windows of that many consecutive words; the strongest response of each
+    filter anywhere in the article is kept, so the model finds topic phrases wherever they appear.
+    """
+
+    def __init__(
+        self,
+        vocab_size,
+        num_classes,
+        embeddings=None,
+        embed_dim=300,
+        num_filters=100,
+        kernel_sizes=(3, 4, 5),
+        dropout=0.5,
+        freeze_embeddings=False,
+    ):
+        super().__init__()
+        self.kernel_sizes = tuple(kernel_sizes)
+        self.embedding = make_embedding(vocab_size, embed_dim, embeddings, freeze_embeddings)
+        self.convs = nn.ModuleList(nn.Conv1d(embed_dim, num_filters, k) for k in self.kernel_sizes)
+        self.dropout = nn.Dropout(dropout)
+        self.classifier = nn.Linear(num_filters * len(self.kernel_sizes), num_classes)
+
+    def forward(self, ids, lengths):
+        longest = max(self.kernel_sizes)
+        if ids.size(1) < longest:
+            ids = nn.functional.pad(ids, (0, longest - ids.size(1)), value=PAD_ID)
+        embedded = self.embedding(ids).transpose(1, 2)
+        pooled = [torch.relu(conv(embedded)).max(dim=2).values for conv in self.convs]
+        return self.classifier(self.dropout(torch.cat(pooled, dim=1)))
+
+
 MODELS = {
     "bilstm": BiLSTMAttention,
+    "textcnn": TextCNN,
 }
 
 

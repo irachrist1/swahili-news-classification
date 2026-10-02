@@ -1,0 +1,7 @@
+test_index,true,predicted,top_words,attention_on_top8
+7080,uchumi,uchumi,"meneja (0.05), hiyo (0.04), modemu (0.03), saalam (0.02), aidha (0.01), ijulikanayo (0.01), maajabu (0.01), kutatua (0.01)",0.188
+3966,michezo,michezo,"azam (0.10), fc (0.10), imeachana (0.09), hall (0.08), jana (0.08), azam (0.06), rasmi (0.04), tovuti (0.04)",0.592
+4613,michezo,michezo,"mchezo (0.05), kmkm (0.04), kombe (0.04), michuano (0.04), bao (0.04), pointi (0.04), pointi (0.04), pointi (0.03)",0.319
+19,michezo,michezo,"mashabiki (0.04), yanga (0.04), timu (0.03), muro (0.03), msimu (0.03), al (0.03), yanga (0.03), mshambuliaji (0.03)",0.266
+298,michezo,michezo,"mazembe (0.09), mazembe (0.09), mazembe (0.08), gasper (0.06), theresia (0.06), tp (0.05), tangu (0.05), tp (0.04)",0.514
+548,afya,afya,"kitomary (0.08), aveline (0.08), dar (0.05), es (0.04), salaam (0.03), rubella (0.02), aliwasisitiza (0.02), surua (0.02)",0.345

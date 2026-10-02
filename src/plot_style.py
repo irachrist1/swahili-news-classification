@@ -16,7 +16,7 @@ GRID = "#e4e3df"
 MODEL_COLORS = {
     "Naive Bayes": SERIES_COLORS[0],
     "Logistic Regression": SERIES_COLORS[1],
-    "BiLSTM + attention": SERIES_COLORS[2],
+    "BiLSTM": SERIES_COLORS[2],
     "TextCNN": SERIES_COLORS[3],
     "AfriBERTa": SERIES_COLORS[4],
 }

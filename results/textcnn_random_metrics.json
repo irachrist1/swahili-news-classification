@@ -1,0 +1,65 @@
+{
+  "run_name": "textcnn_random",
+  "model": "textcnn",
+  "change": "Random embeddings instead of fastText",
+  "hypothesis": "fastText gives rare words a useful start; without it the model must learn 300-d vectors for every word from 20k articles.",
+  "settings": {
+    "model": "textcnn",
+    "preprocess": "full",
+    "stopwords": false,
+    "embeddings": "random",
+    "freeze_embeddings": false,
+    "min_count": 3,
+    "max_len": 400,
+    "hidden_size": 128,
+    "num_layers": 1,
+    "pooling": "attention",
+    "num_filters": 100,
+    "kernel_sizes": [
+      3,
+      4,
+      5
+    ],
+    "dropout": 0.5,
+    "class_weights": "balanced",
+    "batch_size": 64,
+    "lr": 0.001,
+    "epochs": 15,
+    "patience": 3,
+    "seed": 42,
+    "limit": null
+  },
+  "vocab_size": 63040,
+  "fasttext_coverage": null,
+  "trainable_parameters": 19274106,
+  "best_epoch": 5,
+  "epochs_run": 8,
+  "train_seconds": 306.7,
+  "device": "mps",
+  "validation": {
+    "accuracy": 0.8825,
+    "macro_f1": 0.817,
+    "weighted_f1": 0.8857,
+    "f1_per_class": {
+      "uchumi": 0.6419,
+      "kitaifa": 0.891,
+      "michezo": 0.9588,
+      "kimataifa": 0.8883,
+      "burudani": 0.8909,
+      "afya": 0.631
+    }
+  },
+  "test": {
+    "accuracy": 0.8629,
+    "macro_f1": 0.7909,
+    "weighted_f1": 0.8674,
+    "f1_per_class": {
+      "uchumi": 0.6132,
+      "kitaifa": 0.8642,
+      "michezo": 0.9543,
+      "kimataifa": 0.887,
+      "burudani": 0.8934,
+      "afya": 0.5333
+    }
+  }
+}

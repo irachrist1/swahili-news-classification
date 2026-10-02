@@ -1,0 +1,65 @@
+{
+  "run_name": "textcnn_noweights",
+  "model": "textcnn",
+  "change": "No class weights",
+  "hypothesis": "Class weights raise recall on afya and uchumi but may cost precision on the large classes.",
+  "settings": {
+    "model": "textcnn",
+    "preprocess": "full",
+    "stopwords": false,
+    "embeddings": "fasttext",
+    "freeze_embeddings": false,
+    "min_count": 3,
+    "max_len": 400,
+    "hidden_size": 128,
+    "num_layers": 1,
+    "pooling": "attention",
+    "num_filters": 100,
+    "kernel_sizes": [
+      3,
+      4,
+      5
+    ],
+    "dropout": 0.5,
+    "class_weights": "none",
+    "batch_size": 64,
+    "lr": 0.001,
+    "epochs": 15,
+    "patience": 3,
+    "seed": 42,
+    "limit": null
+  },
+  "vocab_size": 63040,
+  "fasttext_coverage": 0.7128,
+  "trainable_parameters": 19274106,
+  "best_epoch": 4,
+  "epochs_run": 7,
+  "train_seconds": 364.8,
+  "device": "mps",
+  "validation": {
+    "accuracy": 0.8928,
+    "macro_f1": 0.8091,
+    "weighted_f1": 0.8884,
+    "f1_per_class": {
+      "uchumi": 0.6132,
+      "kitaifa": 0.9044,
+      "michezo": 0.9525,
+      "kimataifa": 0.8981,
+      "burudani": 0.8956,
+      "afya": 0.5909
+    }
+  },
+  "test": {
+    "accuracy": 0.8765,
+    "macro_f1": 0.7775,
+    "weighted_f1": 0.8719,
+    "f1_per_class": {
+      "uchumi": 0.557,
+      "kitaifa": 0.8867,
+      "michezo": 0.9498,
+      "kimataifa": 0.8848,
+      "burudani": 0.9,
+      "afya": 0.4867
+    }
+  }
+}

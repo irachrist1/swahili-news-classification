@@ -1,0 +1,66 @@
+{
+  "run_name": "textcnn_wide",
+  "model": "textcnn",
+  "change": "200 filters with kernel sizes 2 to 5",
+  "hypothesis": "Two-word phrases such as 'ligi kuu' and more filters give the model more phrase detectors.",
+  "settings": {
+    "model": "textcnn",
+    "preprocess": "full",
+    "stopwords": false,
+    "embeddings": "fasttext",
+    "freeze_embeddings": false,
+    "min_count": 3,
+    "max_len": 400,
+    "hidden_size": 128,
+    "num_layers": 1,
+    "pooling": "attention",
+    "num_filters": 200,
+    "kernel_sizes": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "dropout": 0.5,
+    "class_weights": "balanced",
+    "batch_size": 64,
+    "lr": 0.001,
+    "epochs": 15,
+    "patience": 3,
+    "seed": 42,
+    "limit": null
+  },
+  "vocab_size": 63040,
+  "fasttext_coverage": 0.7128,
+  "trainable_parameters": 19757606,
+  "best_epoch": 3,
+  "epochs_run": 6,
+  "train_seconds": 517.7,
+  "device": "mps",
+  "validation": {
+    "accuracy": 0.8906,
+    "macro_f1": 0.8241,
+    "weighted_f1": 0.8926,
+    "f1_per_class": {
+      "uchumi": 0.6667,
+      "kitaifa": 0.896,
+      "michezo": 0.9631,
+      "kimataifa": 0.916,
+      "burudani": 0.8973,
+      "afya": 0.6057
+    }
+  },
+  "test": {
+    "accuracy": 0.8705,
+    "macro_f1": 0.7921,
+    "weighted_f1": 0.8735,
+    "f1_per_class": {
+      "uchumi": 0.636,
+      "kitaifa": 0.8741,
+      "michezo": 0.9556,
+      "kimataifa": 0.8822,
+      "burudani": 0.9066,
+      "afya": 0.4981
+    }
+  }
+}

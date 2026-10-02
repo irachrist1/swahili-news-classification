@@ -1,0 +1,65 @@
+{
+  "run_name": "textcnn_dropout03",
+  "model": "textcnn",
+  "change": "Dropout 0.3 instead of 0.5",
+  "hypothesis": "Less dropout may fit the training set better without overfitting, since early stopping guards against it.",
+  "settings": {
+    "model": "textcnn",
+    "preprocess": "full",
+    "stopwords": false,
+    "embeddings": "fasttext",
+    "freeze_embeddings": false,
+    "min_count": 3,
+    "max_len": 400,
+    "hidden_size": 128,
+    "num_layers": 1,
+    "pooling": "attention",
+    "num_filters": 100,
+    "kernel_sizes": [
+      3,
+      4,
+      5
+    ],
+    "dropout": 0.3,
+    "class_weights": "balanced",
+    "batch_size": 64,
+    "lr": 0.001,
+    "epochs": 15,
+    "patience": 3,
+    "seed": 42,
+    "limit": null
+  },
+  "vocab_size": 63040,
+  "fasttext_coverage": 0.7128,
+  "trainable_parameters": 19274106,
+  "best_epoch": 2,
+  "epochs_run": 5,
+  "train_seconds": 331.3,
+  "device": "mps",
+  "validation": {
+    "accuracy": 0.8555,
+    "macro_f1": 0.7945,
+    "weighted_f1": 0.864,
+    "f1_per_class": {
+      "uchumi": 0.6578,
+      "kitaifa": 0.8506,
+      "michezo": 0.9613,
+      "kimataifa": 0.8649,
+      "burudani": 0.8943,
+      "afya": 0.5382
+    }
+  },
+  "test": {
+    "accuracy": 0.8384,
+    "macro_f1": 0.772,
+    "weighted_f1": 0.8493,
+    "f1_per_class": {
+      "uchumi": 0.6439,
+      "kitaifa": 0.83,
+      "michezo": 0.9543,
+      "kimataifa": 0.8524,
+      "burudani": 0.9038,
+      "afya": 0.4473
+    }
+  }
+}

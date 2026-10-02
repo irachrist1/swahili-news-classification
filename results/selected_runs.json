@@ -1,0 +1,7 @@
+{
+  "Naive Bayes": "B07",
+  "Logistic Regression": "L05",
+  "BiLSTM": "bilstm_maxpool",
+  "TextCNN": "textcnn_wide",
+  "AfriBERTa": "T04"
+}
